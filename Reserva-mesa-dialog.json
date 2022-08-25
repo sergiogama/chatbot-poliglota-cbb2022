@@ -1,0 +1,388 @@
+{
+  "intents": [
+    {
+      "intent": "Despedida",
+      "examples": [
+        {
+          "text": "Adeus"
+        },
+        {
+          "text": "Até logo"
+        },
+        {
+          "text": "Até mais"
+        },
+        {
+          "text": "Tchau"
+        },
+        {
+          "text": "Vou nessa"
+        }
+      ],
+      "description": ""
+    },
+    {
+      "intent": "Reserva",
+      "examples": [
+        {
+          "text": "Estão fazendo reserva?"
+        },
+        {
+          "text": "Poderia fazer uma reserva?"
+        },
+        {
+          "text": "Quero mesa"
+        },
+        {
+          "text": "Vocês fazem reserva?"
+        },
+        {
+          "text": "Vou querer mesa pra dois"
+        }
+      ],
+      "description": ""
+    },
+    {
+      "intent": "Saudacao",
+      "examples": [
+        {
+          "text": "Boa noite"
+        },
+        {
+          "text": "Boa tarde"
+        },
+        {
+          "text": "Bom dia"
+        },
+        {
+          "text": "E ai?"
+        },
+        {
+          "text": "Olá"
+        }
+      ],
+      "description": ""
+    }
+  ],
+  "entities": [
+    {
+      "entity": "Saudacao_formal",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "Boanoite",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "Boa tarde",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "Bom dia",
+          "synonyms": []
+        }
+      ],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "sys-date",
+      "values": []
+    },
+    {
+      "entity": "sys-number",
+      "values": []
+    },
+    {
+      "entity": "sys-time",
+      "values": []
+    }
+  ],
+  "metadata": {
+    "api_version": {
+      "major_version": "v2",
+      "minor_version": "2018-11-08"
+    }
+  },
+  "dialog_nodes": [
+    {
+      "type": "standard",
+      "title": "Bem-vindo",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Olá. Como posso te ajudar?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "context": {
+        "language": "pt"
+      },
+      "conditions": "welcome",
+      "dialog_node": "Bem-vindo"
+    },
+    {
+      "type": "standard",
+      "title": "Em outros casos",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Eu não entendi. Você pode tentar reformular a frase."
+              },
+              {
+                "text": "Você pode reformular sua afirmação? Eu não estou entendendo."
+              },
+              {
+                "text": "Eu não entendi o sentido."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "anything_else",
+      "dialog_node": "Em outros casos",
+      "previous_sibling": "node_3_1661451062847",
+      "disambiguation_opt_out": true
+    },
+    {
+      "type": "event_handler",
+      "output": {},
+      "parent": "slot_8_1661451568729",
+      "context": {
+        "date": "@sys-date"
+      },
+      "conditions": "@sys-date",
+      "event_name": "input",
+      "dialog_node": "handler_2_1661451568740"
+    },
+    {
+      "type": "event_handler",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Quantas pessoas?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "slot_10_1661451642915",
+      "event_name": "focus",
+      "dialog_node": "handler_2_1661451642916",
+      "previous_sibling": "handler_6_1661451642916"
+    },
+    {
+      "type": "event_handler",
+      "output": {},
+      "parent": "slot_10_1661451619330",
+      "context": {
+        "time": "@sys-time"
+      },
+      "conditions": "@sys-time",
+      "event_name": "input",
+      "dialog_node": "handler_4_1661451619331"
+    },
+    {
+      "type": "event_handler",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Qual o horário?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "slot_10_1661451619330",
+      "event_name": "focus",
+      "dialog_node": "handler_6_1661451619331",
+      "previous_sibling": "handler_4_1661451619331"
+    },
+    {
+      "type": "event_handler",
+      "output": {},
+      "parent": "slot_10_1661451642915",
+      "context": {
+        "number": "@sys-number"
+      },
+      "conditions": "@sys-number",
+      "event_name": "input",
+      "dialog_node": "handler_6_1661451642916"
+    },
+    {
+      "type": "event_handler",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Para quando?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "slot_8_1661451568729",
+      "event_name": "focus",
+      "dialog_node": "handler_8_1661451568740",
+      "previous_sibling": "handler_2_1661451568740"
+    },
+    {
+      "type": "standard",
+      "title": "Saudação",
+      "metadata": {
+        "_customization": {
+          "mcr": true
+        }
+      },
+      "conditions": "#Saudacao",
+      "dialog_node": "node_3_1661451062847",
+      "previous_sibling": "node_6_1661451426313"
+    },
+    {
+      "type": "frame",
+      "title": "Reserva",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Ok! Reserva feita para $date, às $time, para $number pessoas."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          },
+          {
+            "values": [
+              {
+                "text": "Obrigado! <? context.clear() ?>"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "#Reserva",
+      "dialog_node": "node_6_1661451426313",
+      "previous_sibling": "node_8_1661450954218"
+    },
+    {
+      "type": "standard",
+      "title": "Despedida",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "Que pena! Estarei por aqui."
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "conditions": "#Despedida",
+      "dialog_node": "node_8_1661450954218",
+      "previous_sibling": "Bem-vindo"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "text": {
+          "values": [
+            "@Saudacao_formal para você também!"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_3_1661451062847",
+      "conditions": "@Saudacao_formal",
+      "dialog_node": "response_2_1661451136467"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "generic": [
+          {
+            "values": [
+              {
+                "text": "E ai, como posso te ajudar hoje?"
+              }
+            ],
+            "response_type": "text",
+            "selection_policy": "sequential"
+          }
+        ]
+      },
+      "parent": "node_3_1661451062847",
+      "conditions": "anything_else",
+      "dialog_node": "response_5_1661451173236",
+      "previous_sibling": "response_2_1661451136467"
+    },
+    {
+      "type": "slot",
+      "parent": "node_6_1661451426313",
+      "variable": "$time",
+      "dialog_node": "slot_10_1661451619330",
+      "previous_sibling": "slot_8_1661451568729"
+    },
+    {
+      "type": "slot",
+      "parent": "node_6_1661451426313",
+      "variable": "$number",
+      "dialog_node": "slot_10_1661451642915",
+      "previous_sibling": "slot_10_1661451619330"
+    },
+    {
+      "type": "slot",
+      "parent": "node_6_1661451426313",
+      "variable": "$date",
+      "dialog_node": "slot_8_1661451568729"
+    }
+  ],
+  "counterexamples": [],
+  "system_settings": {
+    "disambiguation": {
+      "prompt": "Você quis dizer:",
+      "enabled": true,
+      "randomize": true,
+      "max_suggestions": 5,
+      "suggestion_text_policy": "title",
+      "none_of_the_above_prompt": "Nenhuma das anteriores"
+    },
+    "human_agent_assist": {
+      "prompt": "Você quis dizer:"
+    },
+    "intent_classification": {
+      "training_backend_version": "v2"
+    }
+  },
+  "learning_opt_out": false,
+  "name": "Reserva mesa",
+  "language": "pt-br",
+  "description": ""
+}
